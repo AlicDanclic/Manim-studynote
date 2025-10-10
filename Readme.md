@@ -161,7 +161,18 @@ retangle_object = Rectangle(
 
 ##### 3.1.5 三角形
 
+虽然有必要介绍一下三角形如何生成,但manim的三角形实在是能力太差,最好的三角形生成还是要依靠多边形生成,所以单独属于Triangle的参数不多,下载展示的基本上都是重复的,改变大小要依靠scale,这个我们会在动画/定位中结束.
 
+```python
+triangle = Triangle(
+    color=BLUE, 		# 边框颜色
+    fill_color=YELLOW, 	# 填充颜色
+    fill_opacity=0.5, 	# 填充透明度
+    stroke_width=10		# 边框宽度
+)
+```
+
+<div align="center"><img src="./Bitmap/TriangleShow.gif"/></div>
 
 ##### 3.1.6 直线
 
