@@ -127,11 +127,27 @@ Circle(
 ```
 
 下面是圆形的展示效果:
-<div align="center"><img src="./Bitmap/Circleshow.gif" alt="CircleShow" /></div>
+<div align="center"><img src="./Bitmap/CircleShow.gif" alt="CircleShow" /></div>
 
 ##### 3.1.2 圆弧
 
 🤔在这一节开始前,我认为有必要介绍一下Manim的全局坐标系Manim 使用标准的**三维笛卡尔坐标系**：**原点 (ORIGIN)**: `(0, 0, 0)` - 位于屏幕正中心,**X轴**: 水平方向，**向右**为正方向,**Y轴**: 垂直方向，**向上**为正方向,**Z轴**: 深度方向，**指向屏幕外**为正方向.Manim 采用了一个非常聪明的尺度系统：**屏幕高度**被固定为 **8个单位****,**屏幕宽度**根据宽高比自动计算：顶部边缘: Y = +4,底部边缘: Y = -4,右侧边缘: X ≈ +7.111 (16:9时),左侧边缘: X ≈ -7.111 (16:9时)
+
+虽然现在可能用不到,但还是要介绍,不然大家可能不知道半径为1的圆形到底有多大.
+
+现在我们就可以介绍一下Arc圆弧了,他是圆形的父类,所以圆形有的半径圆形有的东西他也有,但是它额外引出了start_angle和angle.
+
+```python
+Arc(
+    radius=2.0, #半径
+    start_angle=PI/2,#起始角度
+    angle=TAU/2#整个圆弧的角度
+)
+```
+
+这里出现了PI和TAU,PI大家都知道是圆周率,在角度中就对应了180度,而TAU代表了一个整圆,所以我们有$TAU = 2PI$
+
+<div align="center"><img src="./Bitmap/ArcShow.gif" alt="ArcShow" /></div>
 
 ##### 3.1.3 矩形
 
