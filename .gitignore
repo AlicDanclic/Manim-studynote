@@ -1,2 +1,5 @@
-./media/
-./Src/__pycache__/
+# 忽略 media 文件夹及其所有内容
+/media/
+
+# 忽略 Src/__pycache__ 文件夹及其所有内容
+/Src/__pycache__/

@@ -199,9 +199,41 @@ triangle = Triangle(
 
 ##### 3.1.6 直线
 
+直线是和线有类型的基础,但实际上对于我们来说,常用的也就这些
 
+```python
+Line(
+    start=(2,2,0),	# 起点的坐标
+    end=(-2,-2,0),	# 终点的坐标
+    buff=0,			# 直线两端距离设定坐标的距离
+    path_arc=PI/2,	# 让直线变成圆弧的“弧度”值,0就是真的直线,正数 → 逆时针弯；负数 → 顺时针弯。
+    color=BLUE		# 直线颜色
+)
+```
+
+<div align="center"><img src="./Bitmap/LineShow.gif"/></div>
 
 ##### 3.1.7 单向直线箭头
+
+`stroke_width`决定了箭杆有多粗实际粗细还会被`max_stroke_width_to_length_ratio`再“压”一次.`buff`决定了箭头两端留白距离,值越大，可见箭身越短；太大会让箭消失,`max_tip_length_to_length_ratio`决定了箭头“最大允许长度”与“箭身长度”的比例上限,把值调大，小箭头也能长出“大尖”；调小，长箭头也会被强制短尖.`max_stroke_width_to_length_ratio`决定了箭杆“最大允许粗细”与“箭身长度”的比例上限,想“无视比例”固定粗细：把该值设成很大，同时直接给`stroke_width`=你想要的像素,`tip_shape`可以选择箭头尖角的“形状类”
+
+|          类名          |   效果   |
+| :--------------------: | :------: |
+|   `ArrowTriangleTip`   | 空心三角 |
+|    `ArrowSquareTip`    | 空心方块 |
+| `ArrowSquareFilledTip` | 实心方块 |
+|    `ArrowCircleTip`    |  空心圆  |
+| `ArrowCircleFilledTip` |  实心圆  |
+
+```python
+Arrow(
+    stroke_width=3,
+    buff=0.5,
+    max_tip_length_to_length_ratio=0.5,
+    max_stroke_width_to_length_ratio=2,
+    tip_shape=ArrowTriangleTip
+)
+```
 
 
 
@@ -215,7 +247,20 @@ triangle = Triangle(
 
 ##### 3.1.10 圆环
 
+圆环对应的类是Annulus,它主要有以下参数:
 
+```python
+Annulus(
+    outer_radius=1.5,		# 外圆几何半径
+    inner_radius=0.5,  		# 内圆的几何半径 outer_radius 必须 ≥ inner_radius
+    fill_opacity=0.5,  		# 填充颜色的不透明度
+    color=BLUE, 			# 同时管“填充色”和“描边色”
+    stroke_width=0.5,		# 外圈 + 内圈那两道“边线”的粗细
+    mark_paths_closed=True,	# 是否把内外两条圆环路径标记为“闭合”,它主要影响之后的算法
+)
+```
+
+<div align="center"><img src="./Bitmap/AnnulusShow.gif"/></div>
 
 ##### 3.1.11 多边形
 
@@ -245,7 +290,18 @@ RegularPolygon(
 
 ##### 3.1.12 椭圆
 
+> 他居然是继承于Circle!
 
+椭圆是继承于Circle的,所以它的很多参数都是和Circle类似的,它的核心参数只有两个width和height,分别是横轴的长度和竖轴的长度.
+
+```python
+Ellipse(
+    width=4, 
+    height=2
+)
+```
+
+<div align="center"><img src="./Bitmap/EllipseShow.gif"/></div>
 
 ##### 3.1.13 虚线
 
