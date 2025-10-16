@@ -235,9 +235,22 @@ Arrow(
 )
 ```
 
-
+<div align="center"><img src="./Bitmap/ArrowShow.gif"/></div>
 
 ##### 3.1.8 双向箭头
+
+其实,你看一下源码就会发现,这个完全没自己的参数,全是继承Arrow,不过还是被我发现了两个,`tip_shape_end`和`tip_shape_start`.前一个指定了末尾箭头的形状,后一个指定了开始箭头的性质(和Arrow的`tip_shape`一个道理)
+
+```python
+DoubleArrow(
+    stroke_width=3,
+     buff=0.5,
+    max_tip_length_to_length_ratio=0.5,
+    max_stroke_width_to_length_ratio=2,
+    tip_shape_end=ArrowSquareTip,
+    tip_shape_start = ArrowCircleTip
+)
+```
 
 
 
@@ -305,7 +318,18 @@ Ellipse(
 
 ##### 3.1.13 虚线
 
+**`dash_length`**：这个参数直接设置了你看到的每一小段"横线"有多长。默认为DEFAULT_DASH_LENGTH = 0.05.**`dashed_ratio`**：这个参数控制的是一个**周期内实线部分的占比**。**比值越大**（接近1），实线部分占比越大，间隙越小，虚线看起来越**密集**。**比值越小**（接近0），实线部分占比越小，间隙越大，虚线看起来越**稀疏**。
 
+其余参数基础直线
+
+```python
+DashedLine(
+	dash_length = 0.1,
+    dashed_ratio = 0.6
+)
+```
+
+<div align="center"><img src="./Bitmap/DashedLineShow.gif"/></div>
 
 #### 3.2 文本与公式
 

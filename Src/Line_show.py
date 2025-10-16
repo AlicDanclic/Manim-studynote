@@ -80,4 +80,12 @@ class LineShow(Scene):
         self.wait(0.5)
         current_line = new_line
 
+        new_line = Line(start=(2,2,0),end=(-2,-2,0),
+                        buff=0,path_arc=PI/2,
+                        color=BLUE,stroke_width=10)
+        update_params_display({"start": (2,2,0), "end": (-2,-2,0), "buff": 0, "path_arc": PI/2, "color": "BLUE", "stroke_width": 10})
+        self.play(ReplacementTransform(current_line, new_line))
+        self.wait(0.5)
+        current_line = new_line
+
         self.play(FadeOut(current_line))
