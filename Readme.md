@@ -150,6 +150,21 @@ Arc(
 
 <div align="center"><img src="./Bitmap/ArcShow.gif" alt="ArcShow" /></div>
 
+处理这种通过定位圆心和半径角度来确定圆弧的方法,Manim还支持使用ArcBetweenPointsShow来通过两点确定圆弧.他支持的参数如下:
+
+```python
+ArcBetweenPointsShow(
+	start=LEFT,
+    end=RIGHT,
+    angle=3*PI/4, 
+    radius=-4
+)
+```
+
+这里需要说明的时,start和end是永远有效的,但是angles和radius只有一个有效,(目前认为radius优先级比angle高).当radius小于0,就是反向绘制.
+
+<div align="center"><img src="./Bitmap/ArcBetweenPointsShow.gif" alt="ArcShow" /></div>
+
 ##### 3.1.3 矩形
 
 学到这里我们已经可以直接看API了,这是整理出来一些特有的参数:
@@ -252,11 +267,40 @@ DoubleArrow(
 )
 ```
 
-
+<div align="center"><img src="./Bitmap/DoubleArrowShow.gif"/></div>
 
 ##### 3.1.9 圆弧箭头
 
+圆弧箭头有两个,一个单向,一个是双向,在这里先介绍一下单向圆弧箭头.
 
+他其实是继承于ArcBetweenPoints的,而且是箭头,也支持了tip_shape.
+
+```python
+CurvedArrow(
+    start_point=LEFT*3, 
+    end_point=RIGHT*3,
+    angle=PI/4,
+    radius=4,
+    tip_shape=ArrowSquareTip
+)
+```
+
+<div align="center"><img src="./Bitmap/CurvedArrowShow.gif"/></div>
+
+CurvedDoubleArrow继承于CurvedArrow,除了改变量tip_shape其他都一样
+
+```python
+CurvedDoubleArrow(
+    start_point=LEFT*2, 
+    end_point=RIGHT*2, 
+    angle=PI/4,
+    radius=4,
+    tip_shape_start=ArrowCircleTip,
+    tip_shape_end=ArrowSquareTip
+)
+```
+
+<div align="center"><img src="./Bitmap/CurvedDoubleArrowShow.gif"/></div>
 
 ##### 3.1.10 圆环
 
@@ -330,6 +374,214 @@ DashedLine(
 ```
 
 <div align="center"><img src="./Bitmap/DashedLineShow.gif"/></div>
+
+#### 3.1.14 总结
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Mobject {
+        <<abstract>>
+        +color: str
+        +stroke_width: float
+        +opacity: float
+        +z_index: int
+        +visible: bool
+        +shade_in_3d: bool
+    }
+
+    class VMobject {
+        <<abstract>>
+        +fill_color: str
+        +fill_opacity: float
+        +stroke_color: str
+        +stroke_width: float
+        +stroke_opacity: float
+        +sheen_factor: float
+        +sheen_direction: np.array
+        +background_stroke_color: str
+        +background_stroke_width: float
+        +background_stroke_opacity: float
+        +joint_type: str
+        +flat_stroke: bool
+    }
+
+    Mobject <|-- VMobject
+
+    class Arc {
+        +radius: float
+        +angle: float
+        +start_angle: float
+        +arc_center: np.array
+        +num_components: int
+    }
+
+    class Line {
+        +start: np.array
+        +end: np.array
+        +buff: float
+        +path_arc: float
+        +stroke_width: float
+    }
+
+    class Ellipse {
+        +width: float
+        +height: float
+        +color: str
+        +fill_opacity: float
+    }
+
+    class Polygon {
+        +vertices: list
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    class Annulus {
+        +inner_radius: float
+        +outer_radius: float
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    VMobject <|-- Arc
+    VMobject <|-- Line
+    VMobject <|-- Ellipse
+    VMobject <|-- Polygon
+    VMobject <|-- Annulus
+
+    class ArcBetweenPoints {
+        +start: np.array
+        +end: np.array
+        +angle: float
+        +radius: float
+        +stroke_width: float
+        +color: str
+    }
+
+    class CurvedArrow {
+        +start: np.array
+        +end: np.array
+        +angle: float
+        +tip_length: float
+        +stroke_width: float
+        +color: str
+    }
+
+    Arc <|-- ArcBetweenPoints
+    Arc <|-- CurvedArrow
+
+    class DashedLine {
+        +dash_length: float
+        +dash_spacing: float
+        +positive_space_ratio: float
+        +start: np.array
+        +end: np.array
+        +stroke_width: float
+        +color: str
+    }
+
+    class Arrow {
+        +start: np.array
+        +end: np.array
+        +tip_length: float
+        +tip_width: float
+        +tip_angle: float
+        +buff: float
+        +stroke_width: float
+        +color: str
+        +max_tip_length_to_length_ratio: float
+        +max_stroke_width_to_length_ratio: float
+    }
+
+    class TangentLine {
+        +curve: VMobject
+        +alpha: float
+        +length: float
+        +stroke_width: float
+        +color: str
+    }
+
+    Line <|-- DashedLine
+    Line <|-- Arrow
+    Line <|-- TangentLine
+
+    class Circle {
+        +radius: float
+        +color: str
+        +arc_center: np.array
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    Ellipse <|-- Circle
+
+    class RegularPolygon {
+        +n: int
+        +radius: float
+        +start_angle: float
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    class Rectangle {
+        +width: float
+        +height: float
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    Polygon <|-- RegularPolygon
+    Polygon <|-- Rectangle
+
+    class Triangle {
+        +side_length: float
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    class Square {
+        +side_length: float
+        +color: str
+        +fill_opacity: float
+        +stroke_width: float
+    }
+
+    RegularPolygon <|-- Triangle
+    RegularPolygon <|-- Square
+
+    class DoubleArrow {
+        +start: np.array
+        +end: np.array
+        +tip_length: float
+        +tip_width: float
+        +tip_angle: float
+        +buff: float
+        +stroke_width: float
+        +color: str
+    }
+
+    Arrow <|-- DoubleArrow
+
+    class CurvedDoubleArrow {
+        +start: np.array
+        +end: np.array
+        +angle: float
+        +tip_length: float
+        +stroke_width: float
+        +color: str
+    }
+
+    CurvedArrow <|-- CurvedDoubleArrow
+```
+
+
 
 #### 3.2 文本与公式
 
